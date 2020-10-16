@@ -10,9 +10,9 @@ Centralized management of all filetype associations ("preferred applications") v
 
 # Installation
 1. Put the `tinyopen` directory (with its five files) anywhere on your system
-2. Run `tinyopen-setup` once* as regular user 
+2. Run `/path/to/tinyopen/tinyopen-setup` once* as regular user 
 
-\* If you run Tiny Core Linux (or other GNU/Linux OS without filesystem persistence), run `tinyopen-setup` at each boot
+\* If you run Tiny Core Linux, run `/path/to/tinyopen/tinyopen-setup` at each boot (e.g., via a startup job in `~/.X.d/`)
 
 # Usage
 - Manage all your filetype associations by editing `tinyopenrc`
