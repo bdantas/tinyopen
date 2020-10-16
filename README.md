@@ -23,4 +23,4 @@ Centralized management of all filetype associations ("preferred applications") v
 2. Some applications are hardwired use `xdg-open`. `tinyopen-setup` creates `xdg-open` as a link to `tinyopen`. Easy!
 3. Other applications are hardwired to look in user's `mimeapps.list` to figure out filetype associations. The included `mimeapps.list` associates every existing filetype with `mimeapps-open`. The `tinyopen-setup` script puts links to the included `mimeapps.list` in the appropriate places, and also creates `mimeapps-open` as a link to `tinyopen`.  
 
-I created `tinyopen` because I don't like the complexity of having to deal with these three separate systems. Once you've run `tinyopen-setup` and dealt with the big applications (see #1 above), you can manage *all* filetype associations for *all* applications by editing *one* simple text file: `tinyopenrc`
+I created `tinyopen` because I don't like unnecessary complexity. Once you've run `tinyopen-setup` and dealt with the big applications (see #1 above), you can manage *all* filetype associations for *all* applications by editing *one* simple text file: `tinyopenrc`
