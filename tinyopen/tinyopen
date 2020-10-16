@@ -1,0 +1,196 @@
+#!/bin/sh
+
+# tinyopen v3.0
+# Bruno "GNUser" Dantas GPLv3
+
+# minimal xdg-utils replacement, forked from linopen (WTFPL, https://github.com/Cloudef/PKGBUILDS/tree/master/linopen)
+# to make more portable by removing bashisms and GNUisms
+
+HERE="$(dirname "$(readlink -f "${0}")")"
+
+# user variables:
+_TINYOPEN_CFGRC="$HERE/tinyopenrc"
+LOGGING=yes # yes or no
+LOG=/tmp/tinyopen.log # will be created if LOGGING=yes
+
+main() {
+	[ $# -eq 0 ] && { usage; exit 1; }
+
+	# check configuration argument
+	[ "$1" = "-c" ] && {
+		shift 1
+		_TINYOPEN_CFGARG="$1"
+		[ -f "$_TINYOPEN_CFGARG" ] || err "no configuration exists: $_TINYOPEN_CFGARG"
+		shift 1
+	}
+
+	# check that everything is ok
+	[ -n "$(getconfig)" ] || err "no configuration exists: $_TINYOPEN_CFGSYS || $_TINYOPEN_CFGRC or the file is empty"
+	getconfig | grep -q "^default:" || err "rule must exist in configuration: 'default:'"
+		
+	# handle arguments
+	while [ -n "$1" ]; do
+		handle "$1"
+		shift || break
+	done
+}
+
+log_it() {
+	[ ! -e $LOG ] && { touch $LOG; chmod 777 $LOG; }
+	
+	if ([ -f "$1" ] || [ -d "$1" ]); then
+		mimetype="$(file --mime-type "$1" | cut -d: -f 2 | tr -d ' ')"
+	else
+		mimetype="n/a"
+	fi
+
+	echo "arg0: $0
+arg1: $1
+mime: $mimetype
+crit: $2
+prog: $3
+" >>$LOG
+}
+
+# helpers
+err() { echo "$@"; exit 1; }
+usage() { echo "usage: $(basename "$0") [-c <config>] [file]"; }
+
+# pipe configuration
+getconfig() {
+	# '#' are comments in configuration :)
+	[ -f "$_TINYOPEN_CFGARG" ] && { grep -Ev "^(#|$)" "$_TINYOPEN_CFGARG"; return; }
+	[ -f "$_TINYOPEN_CFGRC" ]  && { grep -Ev "^(#|$)" "$_TINYOPEN_CFGRC"; return; }
+	[ -f "$_TINYOPEN_CFGSYS" ] && { grep -Ev "^(#|$)" "$_TINYOPEN_CFGSYS"; return; }
+}
+
+# match regexp ($1 = filename)
+match_regexp() {
+	open_with=''
+	getconfig | grep "^?" | while read cf; do
+		exp="$(echo "$cf" | sed "s/?'\(.*\)':.*/\1/")"
+		echo "$@" | grep -q "$exp" && open_with="$(echo "$cf" | sed "s/?'.*':\(.*\)/\1/")"
+		# exit the loop once a match is encountered
+		[ ! "${open_with}" = '' ] && echo "${open_with}" && exit 0
+	done
+}
+
+# get terminal emulator from configuration
+get_term() {
+	# inside echo (strip whitespace)
+	echo $(getconfig | grep -w "^terminal" | head -1 | cut -d = -f 2 | sed 's/[#].*//')
+}
+
+# check whether program needs a terminal ($1 = program)
+needs_term() {
+	getconfig | grep -q -w "^interm=$@" && return 0 || return 1
+}
+
+needs_fork() {
+	# foreground processes are those whose process group id (pgid) is the foreground one in the terminal (tpgid).
+	# according to 'man proc', 5th field of /proc/<pid>/stat is pgid and 8th field is tpgid.
+	# special thanks to Richard A. Rost (ref: https://tinyurl.com/qwlbxgk).
+	pgid=$(cut -d ' ' -f5 </proc/$$/stat)
+	tpgid=$(cut -d ' ' -f8 </proc/$$/stat)
+
+	# if tinyopen is running in a terminal (i.e., fd1 connected to a vt) AND running in the foreground, then use current terminal. otherwise, fork new terminal.
+	if [ -t 1 ] && [ "$pgid" = "$tpgid" ]; then
+		return 1 # use current terminal
+	else
+		return 0 # fork new terminal
+	fi
+}
+
+# launch file with correct program ($1 = filename, $2 = forced program)
+launch() {
+	local program="$2"
+	local interm=0
+
+	# is directory?
+	[ -d "$1" ] && { 
+		program="$(getconfig | grep "^directory:" | cut -d : -f 2)"
+		[ -n "$program" ] && matched_on=directory
+	}
+
+	# if not directory and file doesn't exist, try matching regexp
+	[ -z "$program" ] && [ ! -f "$1" ] && regexp="$(match_regexp "$1")"
+
+	# if file not found and no matching regexp
+	[ ! -f "$1" ] && [ ! -d "$1" ] && [ -z "$regexp" ] && { err "file does not exist: $1"; } || {
+		[ -z "$program" ] && { program="$regexp"; [ -n "$program" ] && matched_on=regexp; }
+	}
+
+	# test against extension
+	[ -z "$program" ] && {
+		local ext=${1##*.}
+		program="$(getconfig | grep "^.$ext:" | cut -d : -f 2)"
+		[ -n "$program" ] && matched_on=extension
+	}
+
+	# test against whole mime type
+	[ -z "$program" ] && { program="$(getconfig | \
+		grep "^$(file -L -b --mime-type "$1"):" | head -1 | cut -d : -f 2)"
+		[ -n "$program" ] && matched_on="whole mime type"
+	}
+
+	# test against video/, text/ (first part of mime type)
+	[ -z "$program" ] && { program="$(getconfig | \
+		grep "^$(file -L -b --mime-type "$1" | sed 's/\(.*\)\/.*/\1:/')" | head -1 | cut -d : -f 2)"
+		[ -n "$program" ] && matched_on="mime category"
+	}
+
+	# test against regexp
+	[ -z "$program" ] && { program="$(match_regexp "$1")"
+		[ -n "$program" ] && matched_on="regexp"
+	}
+ 
+	# test against default as last try
+	[ -z "$program" ] && { program="$(getconfig | grep "^default:" | head -1 | cut -d : -f 2)"
+		[ -n "$program" ] && matched_on="default"
+	}
+
+	# check arguments
+	echo "$program" | grep -q "\->interm" && interm=1
+
+	# sed out the arguments || comments
+	program="$(echo "$program" | sed 's/->.*//;s/[#].*//')"
+	program="$(echo $program)" # strip leading and trailing whitespace
+
+	# check if program is an enviroiment variable
+	echo "$program" | grep -q '^\$' && {
+		program="$(echo "$program" | sed 's/^\$//')"
+		program="$(env | grep "$program" | head -1 | cut -d = -f 2)"
+	}
+
+	# no program found
+	[ -z "$program" ] && err "could not find program for '$(basename $1)', check your configuration"
+
+	# log it if user wants
+	[ "$LOGGING" = "yes" ] && log_it "$1" "$matched_on" "$program"
+
+	# check if we need term or fork
+	if [ $interm -eq 1 ] || needs_term "$program"; then
+		if needs_fork; then
+			# open in new terminal
+			"$(get_term)" -e "$program" "$1" &
+		else
+			# open in current terminal
+			$program "$1"
+		fi
+	else
+		# echo program is exception here
+		[ "$program" = "echo" ] && { echo "$1"; } || {
+			# open in background (redirects everything to /dev/null)
+			$program "$1" >/dev/null 2>&1 &
+		}
+	fi
+}
+
+# handle file ($1 = filename)
+handle() {
+	local filename="$@"
+	echo $filename | grep -q "^file://" && filename="${filename##file://}"
+	launch "$filename"
+}
+
+main "$@"
