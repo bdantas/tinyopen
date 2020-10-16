@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# tinyopen-setup v3.0
+# Bruno "GNUser" Dantas GPLv3
+
+HERE="$(dirname "$(readlink -f "${0}")")"
+
+chmod a+x $HERE/tinyopen
+chmod a+x $HERE/mimeapps-open.desktop
+
+# system links
+sudo ln -sf $HERE/tinyopen /usr/local/bin/tinyopen
+sudo ln -sf $HERE/tinyopen /usr/local/bin/xdg-open
+sudo ln -sf $HERE/tinyopen /usr/local/bin/mimeapps-open
+sudo mkdir -p /usr/local/share/applications
+sudo ln -sf $HERE/mimeapps-open.desktop /usr/local/share/applications/mimeapps-open.desktop
+
+# regular user links
+mkdir -p $HOME/.config
+ln -sf $HERE/mimeapps.list $HOME/.config/mimeapps.list
+mkdir -p $HOME/.local/share/applications
+ln -sf $HERE/mimeapps.list $HOME/.local/share/applications/mimeapps.list
+
+# root user links
+sudo mkdir -p /root/.config
+sudo ln -sf $HERE/mimeapps.list /root/.config/mimeapps.list
+sudo mkdir -p /root/.local/share/applications
+sudo ln -sf $HERE/mimeapps.list /root/.local/share/applications/mimeapps.list
+
