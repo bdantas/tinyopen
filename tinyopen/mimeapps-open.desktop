@@ -1,0 +1,7 @@
+[Desktop Entry]
+NoDisplay=true
+Name=mimeapps-open
+Exec=mimeapps-open %F
+Icon=mimeapps-open
+Type=Application
+Categories=Utility;
