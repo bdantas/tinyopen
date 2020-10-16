@@ -9,7 +9,7 @@ Centralized management of all filetype associations ("preferred applications") v
 - GNU/Linux with busybox (e.g., Tiny Core Linux): **file**
 
 # Installation
-1. Put the `tinyopen` directory (with its five files) anywhere on your system
+1. Put the `tinyopen` directory anywhere on your system
 2. Run `/path/to/tinyopen/tinyopen-setup` once* as regular user 
 
 \* If you run Tiny Core Linux, run `/path/to/tinyopen/tinyopen-setup` at each boot (e.g., via a startup job in `~/.X.d/`)
