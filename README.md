@@ -21,6 +21,7 @@ Centralized management of all filetype associations ("preferred applications") v
 # How it works: 3 types of applications
 1. Many big applications (e.g., Firefox, Thunderbird) keep their own list of filetype associations. For these applications, go to Edit -> Preferences (or similar) and manually associate all filetypes with `tinyopen`. This is the only one of the three types of applications that requires manual intervention.
 2. Some applications are hardwired use `xdg-open`. `tinyopen-setup` creates `xdg-open` as a link to `tinyopen`. Easy!
-3. Other applications are hardwired to look in user's `mimeapps.list` to figure out filetype associations. The included `mimeapps.list` associates every existing filetype with `mimeapps-open`. The `tinyopen-setup` script puts links to the included `mimeapps.list` in the appropriate places, and also creates `mimeapps-open` as a link to `tinyopen`.  
+3. Other applications are hardwired to look in user's `mimeapps.list` to figure out filetype associations. The included `mimeapps.list` associates every existing filetype with `mimeapps-open`. The `tinyopen-setup` script puts links to the included `mimeapps.list` in the appropriate places, and also creates `mimeapps-open` as a link to `tinyopen`. 
 
-I created `tinyopen` because I don't like unnecessary complexity. Once you've run `tinyopen-setup` and dealt with the big applications (see #1 above), you can manage *all* filetype associations for *all* applications by editing *one* simple text file: `tinyopenrc`
+# Motivation
+I created `tinyopen` because I don't like unnecessary complexity. Once you've run `tinyopen-setup` and dealt with the big applications (see `1.` in the "How it works" section above), you can manage *all* filetype associations for *all* applications by editing *one* simple text file: `tinyopenrc`
