@@ -24,4 +24,4 @@ Centralized management of all filetype associations ("preferred applications") v
 3. Other applications are hardwired to look in user's `mimeapps.list` to figure out filetype associations. The included `mimeapps.list` associates every existing filetype with `mimeapps-open`. The `tinyopen-setup` script puts links to the included `mimeapps.list` in the appropriate places, and also creates `mimeapps-open` as a link to `tinyopen`.
 
 # Motivation
-I created `tinyopen` because I don't want to juggle 3 separate systems of filetype associations. After running `tinyopen-setup` and rigging my big applications to open everything with `tinyopen` (see #1 in the "How it works" section above), now I manage *all* filetype associations for *all* applications by editing *one* simple text file: `tinyopenrc`
+I created `tinyopen` because I don't want to juggle 3 separate systems of filetype associations. After running `tinyopen-setup` and rigging my big applications to open everything with `tinyopen` (see #1 in the "How it works" section above), now I can manage *all* filetype associations for *all* applications by editing *one* simple text file: `tinyopenrc`
