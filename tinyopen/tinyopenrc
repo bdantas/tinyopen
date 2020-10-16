@@ -1,0 +1,54 @@
+#
+# tinyopen configuration
+#
+
+# Specify your terminal emulator here
+# for terminal support.
+terminal=xterm
+
+# Specify all programs you want to
+# open in terminal like this:
+interm=vi
+
+# There are 4 ways to match filetypes.
+# The following examples are in the order
+# which tinyopen chooses the program as well.
+
+# 1. File extension
+# .png:sxiv
+# .mp4:mplayer
+# .txt:vim
+.ods: gnumeric
+.odt: lowriter
+.txt: geany
+
+# 2. Mime type
+# image/png:sxiv
+# video/mp4:mplayer
+# text/plain:vim
+application/pdf:mupdf
+
+# 3. Mime category
+image:eom
+video:mpv
+audio:mpv --force-window
+text:geany
+
+# 4. Regexp
+# Match some protocols by default
+?'^http:\/\/':firefox
+?'^https:\/\/':firefox
+?'^www.':firefox
+?'^dvd:\/\/':mplayer
+?'^cdda:\/\/':mplayer->interm # you can also specify the interm rule explictly after '->'
+
+# Directory rule for directories
+# ideally you want to use file manager
+# here if you are a GUI user.
+directory:xfe
+
+# Default rule just echoes back whatever
+# was fed. If you are using DE you could
+# just map a file manager here and it would
+# integrate with your system.
+default:geany
