@@ -7,6 +7,7 @@ Centralized management of all filetype associations ("preferred applications") v
 # Dependencies
 - GNU/Linux with coreutils (e.g., Debian): **grep, gio**
 - GNU/Linux with busybox (e.g., Tiny Core Linux): **gio**  
+  
 Note: The **gio** utility is part of glib2 (on Debian it is provided by the `libglib2.0-bin.deb` package, in TCL it is provided by the `glib2.tcz` extension)
 
 # Installation
