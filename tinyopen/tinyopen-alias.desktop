@@ -1,7 +1,7 @@
 [Desktop Entry]
 NoDisplay=true
-Name=mimeapps-open
-Exec=mimeapps-open %F
-Icon=mimeapps-open
+Name=tinyopen-alias
+Exec=tinyopen-alias %F
+Icon=tinyopen-alias
 Type=Application
 Categories=Utility;
