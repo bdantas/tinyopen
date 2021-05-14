@@ -15,7 +15,7 @@ Centralized management of all filetype associations ("preferred applications") v
 \* If you're on Tiny Core Linux, you need to run it at each boot (e.g., via a startup job in `~/.X.d/`)
 
 # Usage
-- Manage all your filetype associations by editing `tinyopenrc`
+- Manage all your filetype associations by editing `tinyopen.conf`
 - Troubleshoot by running `tail -f /tmp/tinyopen.log` in a terminal and watching the output as you open files
 
 # How it works: 3 types of applications
@@ -24,4 +24,4 @@ Centralized management of all filetype associations ("preferred applications") v
 3. Other applications are hardwired to look in user's `mimeapps.list` to figure out filetype associations. The included `mimeapps.list` associates every existing filetype with `mimeapps-open`. The `tinyopen-setup` script puts links to the included `mimeapps.list` in the appropriate places, and also creates `mimeapps-open` as a link to `tinyopen`.
 
 # Motivation
-I created `tinyopen` because I don't want to juggle 3 separate systems of filetype associations. After running `tinyopen-setup` and rigging my big applications to open everything with `tinyopen` (see #1 in the "How it works" section above), now I can manage *all* filetype associations for *all* applications by editing *one* simple text file: `tinyopenrc`
+I created `tinyopen` because I don't want to juggle 3 separate systems of filetype associations. After running `tinyopen-setup` and rigging my big applications to open everything with `tinyopen` (see #1 in the "How it works" section above), now I can manage *all* filetype associations for *all* applications by editing *one* simple text file: `tinyopen.conf`
