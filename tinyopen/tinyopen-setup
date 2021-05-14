@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# tinyopen-setup v3.0
+# tinyopen-setup v3.1
 # Bruno "GNUser" Dantas GPLv3
 
 # user variable:
@@ -14,6 +14,7 @@ chmod a+x $HERE/mimeapps-open.desktop
 sudo ln -sf $HERE/tinyopen $prefix/bin/tinyopen
 sudo ln -sf $HERE/tinyopen $prefix/bin/xdg-open
 sudo ln -sf $HERE/tinyopen $prefix/bin/mimeapps-open
+sudo ln -sf $HERE/tinyopen $prefix/bin/xdg-email
 sudo mkdir -p $prefix/share/applications
 sudo ln -sf $HERE/mimeapps-open.desktop $prefix/share/applications/mimeapps-open.desktop
 
