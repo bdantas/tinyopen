@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# tinyopen-setup v3.1
+# tinyopen-setup v4.0
 # Bruno "GNUser" Dantas GPLv3
 
 # user variable:
@@ -8,15 +8,15 @@ prefix=/usr/local # choose either /usr/local or /usr
 
 HERE="$(dirname "$(readlink -f "${0}")")"
 chmod a+x $HERE/tinyopen
-chmod a+x $HERE/mimeapps-open.desktop
+chmod a+x $HERE/tinyopen-alias.desktop
 
 # system links
 sudo ln -sf $HERE/tinyopen $prefix/bin/tinyopen
 sudo ln -sf $HERE/tinyopen $prefix/bin/xdg-open
-sudo ln -sf $HERE/tinyopen $prefix/bin/mimeapps-open
+sudo ln -sf $HERE/tinyopen $prefix/bin/tinyopen-alias
 sudo ln -sf $HERE/tinyopen $prefix/bin/xdg-email
 sudo mkdir -p $prefix/share/applications
-sudo ln -sf $HERE/mimeapps-open.desktop $prefix/share/applications/mimeapps-open.desktop
+sudo ln -sf $HERE/tinyopen-alias.desktop $prefix/share/applications/tinyopen-alias.desktop
 
 # regular user links
 mkdir -p $HOME/.config
