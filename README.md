@@ -12,7 +12,7 @@ Centralized management of all filetype associations ("preferred applications") v
 1. Put the `tinyopen` directory anywhere on your system
 2. Run `/path/to/tinyopen/tinyopen-setup` once* as regular (non-root) user 
 
-\* If you're on Tiny Core Linux, you need to run it at each boot (e.g., via a startup job in `~/.X.d/`)
+\* If you're on Tiny Core Linux, use the tinyopen.tcz extension. If you really want to use the github files instead of the TCL extension, you need to need to run tinyopen-setup at each boot (e.g., via a startup job in `~/.X.d/`)
 
 # Usage
 - Manage all your filetype associations by editing `tinyopen.conf`
