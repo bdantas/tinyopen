@@ -7,13 +7,13 @@ Centralized management of all filetype associations ("preferred applications") v
 # Dependencies
 - GNU/Linux with coreutils (e.g., Debian): **grep, gio**
 - GNU/Linux with busybox (e.g., Tiny Core Linux): **gio**  
-Note: The **gio** utility is part of glib2 (on Debian it is provided by libglib2.0-bin.deb, in TCL it is provided by glib2.tcz)
+Note: The **gio** utility is part of glib2 (on Debian it is provided by the `libglib2.0-bin.deb` package, in TCL it is provided by the `glib2.tcz` extension)
 
 # Installation
 1. Put the `tinyopen` directory anywhere on your system
-2. Run `/path/to/tinyopen/tinyopen-setup`* once as regular (non-root) user
+2. On a conventional* distro, run `/path/to/tinyopen/tinyopen-setup` once as regular (non-root) user
 
-\* If you're on Tiny Core Linux, use the `tinyopen.tcz` extension. The extension does not have the `tinyopen-setup` script because the extension sets everything up for you. If you are on TCL and really want to use the github files instead of `tinyopen.tcz`, make sure to run `tinyopen-setup` at each boot (e.g., via a startup job in `~/.X.d/`)
+\* If you're on Tiny Core Linux, `tinyopen.tcz` extension is available and does not have the `tinyopen-setup` script because the extension takes care of the setup for you. If you really want to use these github files instead of the extension, put the files in a persistent directory (e.g., in `/home` or `/opt` depending on your setup) and run `tinyopen-setup` at each boot (e.g., via a startup job in `~/.X.d/`). The reason the setup needs to be done at each boot is that TCL's root filesystem exists only in RAM therefore tweaks to the filesystem do not survive reboots.
 
 # Usage
 - Manage all your filetype associations by editing `tinyopen.conf`
