@@ -5,8 +5,9 @@ Minimalistic xdg-utils replacement
 Centralized management of all filetype associations ("preferred applications") via a simple text file
 
 # Dependencies
-- GNU/Linux with coreutils (e.g., Debian): **grep, file**
-- GNU/Linux with busybox (e.g., Tiny Core Linux): **file**
+- GNU/Linux with coreutils (e.g., Debian): **grep, gio**
+- GNU/Linux with busybox (e.g., Tiny Core Linux): **gio**
+Note: The **gio** utility is part of glib2 (on Debian it is provided by libglib2.0-bin.deb, in TCL it is provided by glib2.tcz)
 
 # Installation
 1. Put the `tinyopen` directory anywhere on your system
