@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# tinyopen v3.0
+# tinyopen v3.1
 # Bruno "GNUser" Dantas GPLv3
 
 # minimal xdg-utils replacement, forked from linopen (WTFPL, https://github.com/Cloudef/PKGBUILDS/tree/master/linopen)
@@ -9,7 +9,7 @@
 HERE="$(dirname "$(readlink -f "${0}")")"
 
 # user variables:
-_TINYOPEN_CFGRC="$HERE/tinyopenrc"
+_TINYOPEN_CFGRC="$HERE/tinyopen.conf"
 LOGGING=yes # yes or no
 LOG=/tmp/tinyopen.log # will be created if LOGGING=yes
 
