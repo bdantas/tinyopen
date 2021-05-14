@@ -3,8 +3,8 @@
 # tinyopen v5.0
 # Bruno "GNUser" Dantas GPLv3
 
-# minimal xdg-utils replacement, forked from linopen (WTFPL, https://github.com/Cloudef/PKGBUILDS/tree/master/linopen)
-# to make more portable by removing bashisms and GNUisms
+# Filetype associations made simple! 
+# tinyopen started out as a fork of linopen (WTFPL, https://github.com/Cloudef/PKGBUILDS/tree/master/linopen)
 
 HERE="$(dirname "$(readlink -f "${0}")")"
 
@@ -25,7 +25,7 @@ main() {
 	}
 
 	# check that everything is ok
-	[ -n "$(getconfig)" ] || err "no configuration exists: $_TINYOPEN_CFGSYS || $_TINYOPEN_CFGRC or the file is empty"
+	[ -n "$(getconfig)" ] || err "$_TINYOPEN_CFGRC does not exist or the file is empty"
 	getconfig | grep -q "^default:" || err "rule must exist in configuration: 'default:'"
 		
 	# handle arguments
@@ -39,7 +39,7 @@ log_it() {
 	[ ! -e $LOG ] && { touch $LOG; chmod 777 $LOG; }
 	
 	if ([ -f "$1" ] || [ -d "$1" ]); then
-		mimetype="$(file --mime-type "$1" | cut -d: -f 2 | tr -d ' ')"
+		mimetype="$(gio info "$1" | grep '::content-type' | cut -d' ' -f4)"
 	else
 		mimetype="n/a"
 	fi
@@ -47,7 +47,7 @@ log_it() {
 	echo "arg0: $0
 arg1: $1
 mime: $mimetype
-crit: $2
+matc: $2
 prog: $3
 " >>$LOG
 }
@@ -60,8 +60,7 @@ usage() { echo "usage: $(basename "$0") [-c <config>] [file]"; }
 getconfig() {
 	# '#' are comments in configuration :)
 	[ -f "$_TINYOPEN_CFGARG" ] && { grep -Ev "^(#|$)" "$_TINYOPEN_CFGARG"; return; }
-	[ -f "$_TINYOPEN_CFGRC" ]  && { grep -Ev "^(#|$)" "$_TINYOPEN_CFGRC"; return; }
-	[ -f "$_TINYOPEN_CFGSYS" ] && { grep -Ev "^(#|$)" "$_TINYOPEN_CFGSYS"; return; }
+	[ -f "$_TINYOPEN_CFGRC" ] && { grep -Ev "^(#|$)" "$_TINYOPEN_CFGRC"; return; }
 }
 
 # match regexp ($1 = filename)
@@ -129,13 +128,14 @@ launch() {
 
 	# test against whole mime type
 	[ -z "$program" ] && { program="$(getconfig | \
-		grep "^$(file -L -b --mime-type "$1"):" | head -1 | cut -d : -f 2)"
+		grep "^$(gio info "$1" | grep '::content-type' | cut -d' ' -f4):" | head -1 | cut -d : -f 2)"
 		[ -n "$program" ] && matched_on="whole mime type"
 	}
 
-	# test against video/, text/ (first part of mime type)
+	# test against mime category (e.g., video/, text/, etc.)
 	[ -z "$program" ] && { program="$(getconfig | \
-		grep "^$(file -L -b --mime-type "$1" | sed 's/\(.*\)\/.*/\1:/')" | head -1 | cut -d : -f 2)"
+		grep "^$(gio info "$1" | grep '::content-type' | cut -d' ' -f4 | \
+			sed 's/\(.*\)\/.*/\1:/')" | head -1 | cut -d : -f 2)"
 		[ -n "$program" ] && matched_on="mime category"
 	}
 
