@@ -14,7 +14,7 @@ Note: The **gio** utility is part of glib2 (on Debian it is provided by the `lib
 1. Put the `tinyopen` directory anywhere on your system
 2. On a conventional* distro, run `/path/to/tinyopen/tinyopen-setup` once as regular (non-root) user
 
-\* If you're on Tiny Core Linux, `tinyopen-setup` needs to run at each boot (e.g., via a startup job in `~/.X.d/`). If you are using the `tinyopen.tcz` extension from the TCL repository, then you don't have to worry about this because the extension automatically runs `tinyopen-setup` for you.
+\* If you're on Tiny Core Linux, `tinyopen-setup` needs to run at each boot (e.g., via a startup job in `~/.X.d/`). If you are using the `tinyopen.tcz` extension from the TCL repository, then you don't have to worry about this because the extension automatically runs `tinyopen-setup` for you when it loads.
 
 # Usage
 - Manage all your filetype associations by editing `tinyopen.conf`
