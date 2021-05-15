@@ -1829,6 +1829,7 @@ video/vnd.youtube.yt=tinyopen-alias.desktop
 video/vnd.vivo=tinyopen-alias.desktop
 video/VP8=tinyopen-alias.desktop
 text/plain=tinyopen-alias.desktop
+text/x-shellscript=tinyopen-alias.desktop
 application/x-shellscript=tinyopen-alias.desktop
 image/jpeg=tinyopen-alias.desktop
 video/webm=tinyopen-alias.desktop
