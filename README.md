@@ -1,5 +1,5 @@
 # tinyopen
-Minimalistic xdg-utils replacement
+Simple, centralized "preferred applications" management
 
 # Purpose
 Centralized management of all filetype associations ("preferred applications") via a simple text file
