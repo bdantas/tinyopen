@@ -1,5 +1,5 @@
 # tinyopen
-Simple, centralized management of "preferred applications" for GNU/Linux
+Simplified "preferred applications" management for GNU/Linux
 
 # Purpose
 Centralized management of all filetype associations ("preferred applications") via a simple text file
