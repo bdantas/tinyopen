@@ -22,8 +22,8 @@ Note: The **gio** utility is part of glib2 (on Debian it is provided by the `lib
 
 # How it works: 3 types of applications
 1. Many big applications (e.g., Firefox, Thunderbird) keep their own list of filetype associations. For these applications, go to Edit -> Preferences (or similar) and manually associate all filetypes with `tinyopen`. This is the only one of the three types of applications that requires manual intervention.
-2. Some applications are hardwired use `xdg-open` or `xdg-email`. After running `tinyopen-setup`, `xdg-open` and `xdg-email` are simply symlinks to `tinyopen`.
-3. Other applications are hardwired to look in user's `mimeapps.list` to figure out filetype associations. The included `mimeapps.list` associates every existing filetype with `tinyopen-alias`. The `tinyopen-setup` script puts links to the included `mimeapps.list` in the appropriate places, and also creates `tinyopen-alias` as a link to `tinyopen`.
+2. Some applications are hardwired use `xdg-open` or `xdg-email`, which are just links to `tinyopen`.
+3. Other applications are hardwired to look in user's `mimeapps.list` to figure out filetype associations. The included `mimeapps.list` associates every existing filetype with `tinyopen-alias`, which is just a link to `tinyopen`.
 
 # Motivation
 I created `tinyopen` because I don't want to juggle 3 separate systems of filetype associations. After running `tinyopen-setup` and rigging my big applications to open everything with `tinyopen` (see #1 in the "How it works" section above), now I can manage *all* filetype associations for *all* applications by editing *one* simple text file: `tinyopen.conf`
